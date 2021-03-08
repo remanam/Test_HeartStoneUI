@@ -41,7 +41,7 @@ public class PlayerHand : MonoBehaviour
     private void LateUpdate()
     {
 
-        CheckIfCardDead();
+        CheckForSort();
     }
 
     private IEnumerator FinishGame(float delay)
@@ -54,21 +54,21 @@ public class PlayerHand : MonoBehaviour
     }
 
 
-    private void CheckIfCardDead()
+    private void CheckForSort()
     {
         for (int i = 0; i < cardsInHand.Count; i++) {
 
+            //Health  <= 0
             if (cardsInHand[i].GetComponent<Card>().GetHealth() <= 0 && cardsInHand[i] != null) {
 
                 var elemToDestroy = cardsInHand[i];
 
                 cardsInHand.Remove(cardsInHand[i]);
                 Destroy(elemToDestroy);
-                SortCards(i, 0.8f);
-
-
+                
 
             }
+
         }
     }
 
