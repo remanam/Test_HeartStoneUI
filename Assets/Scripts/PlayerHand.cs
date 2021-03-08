@@ -17,7 +17,7 @@ public class PlayerHand : MonoBehaviour
     [SerializeField]
     private List<GameObject> cardsInHand = new List<GameObject>();
 
-    private int cardIndex = 0;
+    private int ChangeCardIndex = 0;
 
     private int startCardCount = 0;
 
@@ -65,8 +65,10 @@ public class PlayerHand : MonoBehaviour
 
                 cardsInHand.Remove(cardsInHand[i]);
                 Destroy(elemToDestroy);
-                
+                SortCards(i, 0.8f);
 
+                // every sort reset ChangeCardIndex, so we don't get IndexError
+                ChangeCardIndex = 0;
             }
 
         }
@@ -84,16 +86,17 @@ public class PlayerHand : MonoBehaviour
     // Change card from left to right
     public void changeCard()
     {
+        Debug.Log("Index :" + ChangeCardIndex);
+        Destroy(cardsInHand[ChangeCardIndex]);
 
-        Destroy(cardsInHand[cardIndex]);
+        cardsInHand[ChangeCardIndex] = InitRandomCard(ChangeCardIndex);
 
-        cardsInHand[cardIndex] = InitRandomCard(cardIndex);
 
-        if (cardIndex + 1 > cardsInHand.Count - 1) {
-            cardIndex = 0;
+        if (ChangeCardIndex + 1 > cardsInHand.Count - 1 || cardsInHand.Count == 1) {
+            ChangeCardIndex = 0;
         }
         else {
-            cardIndex++;
+            ChangeCardIndex++;
         }
     }
 
